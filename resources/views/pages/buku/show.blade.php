@@ -9,7 +9,6 @@
 </head>
 <body class="bg-light">
 
-{{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('buku.index') }}">
@@ -35,10 +34,8 @@
     </div>
 </nav>
 
-{{-- CONTENT --}}
 <div class="container py-4">
 
-    {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3 d-flex justify-content-between align-items-center">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
@@ -123,7 +120,6 @@
 
 </div>
 
-<!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

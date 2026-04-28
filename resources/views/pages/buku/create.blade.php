@@ -9,7 +9,6 @@
 </head>
 <body class="bg-light">
 
-{{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('buku.index') }}">
@@ -35,10 +34,8 @@
     </div>
 </nav>
 
-{{-- CONTENT --}}
 <div class="container py-4">
 
-    {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -56,7 +53,6 @@
             <form action="{{ route('buku.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                {{-- Judul --}}
                 <div class="mb-3">
                     <label for="judul" class="form-label fw-semibold">Judul Buku <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('judul') is-invalid @enderror"
@@ -67,7 +63,6 @@
                     @enderror
                 </div>
 
-                {{-- Penulis & Penerbit --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="penulis" class="form-label fw-semibold">Penulis <span class="text-danger">*</span></label>
@@ -89,7 +84,6 @@
                     </div>
                 </div>
 
-                {{-- Kategori & Tahun Terbit --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="kategori" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
@@ -117,7 +111,6 @@
                     </div>
                 </div>
 
-                {{-- Harga & Stok --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="harga" class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
@@ -141,7 +134,6 @@
                     </div>
                 </div>
 
-                {{-- Deskripsi --}}
                 <div class="mb-3">
                     <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
                     <textarea class="form-control @error('deskripsi') is-invalid @enderror"
@@ -152,7 +144,6 @@
                     @enderror
                 </div>
 
-                {{-- Cover --}}
                 <div class="mb-4">
                     <label for="cover" class="form-label fw-semibold">Cover Buku</label>
                     <input type="file" class="form-control @error('cover') is-invalid @enderror"
@@ -163,7 +154,6 @@
                     @enderror
                 </div>
 
-                {{-- Tombol --}}
                 <div class="d-flex justify-content-end gap-2">
                     <a href="{{ route('buku.index') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-x-lg me-1"></i>Batal

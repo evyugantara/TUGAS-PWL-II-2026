@@ -9,7 +9,6 @@
 </head>
 <body class="bg-light">
 
-{{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('buku.index') }}">
@@ -40,10 +39,8 @@
     </div>
 </nav>
 
-{{-- CONTENT --}}
 <div class="container py-4">
 
-    {{-- Judul halaman + tombol tambah --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0 fw-bold">Daftar Buku</h4>
         <a href="{{ route('buku.create') }}" class="btn btn-dark btn-sm">
@@ -51,7 +48,6 @@
         </a>
     </div>
 
-    {{-- Alert sukses --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-1"></i>{{ session('success') }}
@@ -59,7 +55,6 @@
         </div>
     @endif
 
-    {{-- Tabel --}}
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <table class="table table-hover table-bordered mb-0">
@@ -82,17 +77,14 @@
                             <td>{{ $item->tahun_terbit }}</td>
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                             <td class="text-center">
-                                {{-- Detail --}}
                                 <a href="{{ route('buku.show', $item) }}"
                                    class="btn btn-sm btn-secondary" title="Detail">
                                     <i class="bi bi-eye"></i> Detail
                                 </a>
-                                {{-- Edit --}}
                                 <a href="{{ route('buku.edit', $item) }}"
                                    class="btn btn-sm btn-outline-dark" title="Edit">
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
-                                {{-- Hapus --}}
                                 <form action="{{ route('buku.destroy', $item) }}" method="POST"
                                       class="d-inline"
                                       onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
@@ -117,21 +109,17 @@
         </div>
     </div>
 
-    {{-- Pagination --}}
     @if($buku->lastPage() > 1)
         <nav class="mt-3 d-flex justify-content-end">
             <ul class="pagination pagination-sm mb-0">
-                {{-- Prev --}}
                 <li class="page-item {{ $buku->onFirstPage() ? 'disabled' : '' }}">
                     <a class="page-link" href="{{ $buku->previousPageUrl() ?? '#' }}">&laquo;</a>
                 </li>
-                {{-- Nomor halaman --}}
                 @for($i = 1; $i <= $buku->lastPage(); $i++)
                     <li class="page-item {{ $buku->currentPage() == $i ? 'active' : '' }}">
                         <a class="page-link" href="{{ $buku->url($i) }}">{{ $i }}</a>
                     </li>
                 @endfor
-                {{-- Next --}}
                 <li class="page-item {{ !$buku->hasMorePages() ? 'disabled' : '' }}">
                     <a class="page-link" href="{{ $buku->nextPageUrl() ?? '#' }}">&raquo;</a>
                 </li>

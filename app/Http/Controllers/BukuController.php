@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
-    /**
-     * Menampilkan daftar semua buku.
-     */
     public function index(Request $request)
     {
         $query = Buku::query();
@@ -27,17 +24,11 @@ class BukuController extends Controller
         return view('pages.buku.index', compact('buku'));
     }
 
-    /**
-     * Menampilkan form tambah buku baru.
-     */
     public function create()
     {
         return view('pages.buku.create');
     }
 
-    /**
-     * Menyimpan buku baru ke database.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -61,25 +52,16 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan!');
     }
 
-    /**
-     * Menampilkan detail buku.
-     */
     public function show(Buku $buku)
     {
         return view('pages.buku.show', compact('buku'));
     }
 
-    /**
-     * Menampilkan form edit buku.
-     */
     public function edit(Buku $buku)
     {
         return view('pages.buku.edit', compact('buku'));
     }
 
-    /**
-     * Memperbarui data buku di database.
-     */
     public function update(Request $request, Buku $buku)
     {
         $validated = $request->validate([
@@ -95,7 +77,6 @@ class BukuController extends Controller
         ]);
 
         if ($request->hasFile('cover')) {
-            // Hapus cover lama jika ada
             if ($buku->cover) {
                 Storage::disk('public')->delete($buku->cover);
             }
@@ -107,9 +88,6 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui!');
     }
 
-    /**
-     * Menghapus buku dari database.
-     */
     public function destroy(Buku $buku)
     {
         if ($buku->cover) {

@@ -18,5 +18,4 @@ Route::get('/Contac', [ContacController::class, 'index']);
 Route::get('/Produk', [ProdukController::class, 'index']);
 Route::get('/Riwayat', [RiwayatController::class, 'index']);
 
-
 Route::resource('/buku', BukuController::class);

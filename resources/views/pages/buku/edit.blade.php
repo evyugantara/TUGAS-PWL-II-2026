@@ -9,7 +9,6 @@
 </head>
 <body class="bg-light">
 
-{{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('buku.index') }}">
@@ -35,10 +34,8 @@
     </div>
 </nav>
 
-{{-- CONTENT --}}
 <div class="container py-4">
 
-    {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -58,7 +55,6 @@
                 @csrf
                 @method('PUT')
 
-                {{-- Judul --}}
                 <div class="mb-3">
                     <label for="judul" class="form-label fw-semibold">Judul Buku <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('judul') is-invalid @enderror"
@@ -68,7 +64,6 @@
                     @enderror
                 </div>
 
-                {{-- Penulis & Penerbit --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="penulis" class="form-label fw-semibold">Penulis <span class="text-danger">*</span></label>
@@ -88,7 +83,6 @@
                     </div>
                 </div>
 
-                {{-- Kategori & Tahun Terbit --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="kategori" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
@@ -116,7 +110,6 @@
                     </div>
                 </div>
 
-                {{-- Harga & Stok --}}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="harga" class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
@@ -140,7 +133,6 @@
                     </div>
                 </div>
 
-                {{-- Deskripsi --}}
                 <div class="mb-3">
                     <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
                     <textarea class="form-control @error('deskripsi') is-invalid @enderror"
@@ -150,7 +142,6 @@
                     @enderror
                 </div>
 
-                {{-- Cover --}}
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Cover Saat Ini</label>
                     <div class="d-flex align-items-center mb-2">
@@ -174,7 +165,6 @@
 
                 <hr>
 
-                {{-- Tombol --}}
                 <div class="d-flex justify-content-between">
                     <div>
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -197,7 +187,6 @@
 
 </div>
 
-<!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

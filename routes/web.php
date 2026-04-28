@@ -6,7 +6,9 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ContacController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RiwayatController;
-Route::get('/', function () {
+use App\Http\Controllers\BukuController;
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -15,3 +17,6 @@ Route::get('/Beranda', [BerandaController::class, 'index']);
 Route::get('/Contac', [ContacController::class, 'index']);
 Route::get('/Produk', [ProdukController::class, 'index']);
 Route::get('/Riwayat', [RiwayatController::class, 'index']);
+
+
+Route::resource('/buku', BukuController::class);

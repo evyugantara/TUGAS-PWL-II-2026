@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Buku;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class BukuController extends Controller
+{
+    /**
+     * Menampilkan daftar semua buku.
+     */
+    public function index(Request $request)
+    {
+        $query = Buku::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('judul', 'like', "%{$search}%")
+                  ->orWhere('penulis', 'like', "%{$search}%")
+                  ->orWhere('kategori', 'like', "%{$search}%");
+        }
+
+        $buku = $query->latest()->paginate(9);
+
+        return view('pages.buku.index', compact('buku'));
+    }
+
+    /**
+     * Menampilkan form tambah buku baru.
+     */
+    public function create()
+    {
+        return view('pages.buku.create');
+    }
+
+    /**
+     * Menyimpan buku baru ke database.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'penerbit'     => 'required|string|max:255',
+            'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'kategori'     => 'required|string|max:100',
+            'harga'        => 'required|numeric|min:0',
+            'stok'         => 'required|integer|min:0',
+            'deskripsi'    => 'nullable|string',
+            'cover'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('cover')) {
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
+        }
+
+        Buku::create($validated);
+
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan!');
+    }
+
+    /**
+     * Menampilkan detail buku.
+     */
+    public function show(Buku $buku)
+    {
+        return view('pages.buku.show', compact('buku'));
+    }
+
+    /**
+     * Menampilkan form edit buku.
+     */
+    public function edit(Buku $buku)
+    {
+        return view('pages.buku.edit', compact('buku'));
+    }
+
+    /**
+     * Memperbarui data buku di database.
+     */
+    public function update(Request $request, Buku $buku)
+    {
+        $validated = $request->validate([
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'penerbit'     => 'required|string|max:255',
+            'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'kategori'     => 'required|string|max:100',
+            'harga'        => 'required|numeric|min:0',
+            'stok'         => 'required|integer|min:0',
+            'deskripsi'    => 'nullable|string',
+            'cover'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('cover')) {
+            // Hapus cover lama jika ada
+            if ($buku->cover) {
+                Storage::disk('public')->delete($buku->cover);
+            }
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
+        }
+
+        $buku->update($validated);
+
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus buku dari database.
+     */
+    public function destroy(Buku $buku)
+    {
+        if ($buku->cover) {
+            Storage::disk('public')->delete($buku->cover);
+        }
+
+        $buku->delete();
+
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus!');
+    }
+}

@@ -9,7 +9,7 @@ use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\BukuController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('WELCOME');
 });
 
 Route::get('/About', [AboutController::class, 'index']);

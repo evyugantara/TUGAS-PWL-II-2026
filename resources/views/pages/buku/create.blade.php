@@ -46,7 +46,7 @@
     </nav>
 
     <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header bg-primary text-white">
             <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Tambah Buku Baru</h5>
         </div>
         <div class="card-body">
@@ -158,7 +158,7 @@
                     <a href="{{ route('buku.index') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-x-lg me-1"></i>Batal
                     </a>
-                    <button type="submit" class="btn btn-dark">
+                    <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save me-1"></i>Simpan
                     </button>
                 </div>

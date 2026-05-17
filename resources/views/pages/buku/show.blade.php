@@ -106,10 +106,10 @@
 
                     <hr>
                     <div class="d-flex gap-2 mt-4">
-                        <a href="{{ route('buku.edit', $buku) }}" class="btn btn-dark">
+                        <a href="{{ route('buku.edit', $buku) }}" class="btn btn-warning">
                             <i class="bi bi-pencil-square me-1"></i>Edit Data
                         </a>
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class="bi bi-trash me-1"></i>Hapus Buku
                         </button>
                     </div>

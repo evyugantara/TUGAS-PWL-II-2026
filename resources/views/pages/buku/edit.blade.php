@@ -46,9 +46,9 @@
     </nav>
 
     <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Edit Buku</h5>
-            <span class="badge bg-secondary">Mode Edit</span>
+            <span class="badge bg-dark">Mode Edit</span>
         </div>
         <div class="card-body">
             <form action="{{ route('buku.update', $buku) }}" method="POST" enctype="multipart/form-data">
@@ -167,7 +167,7 @@
 
                 <div class="d-flex justify-content-between">
                     <div>
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class="bi bi-trash me-1"></i>Hapus
                         </button>
                     </div>
@@ -175,7 +175,7 @@
                         <a href="{{ route('buku.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-x-lg me-1"></i>Batal
                         </a>
-                        <button type="submit" class="btn btn-dark">
+                        <button type="submit" class="btn btn-warning text-dark fw-semibold">
                             <i class="bi bi-save me-1"></i>Perbarui
                         </button>
                     </div>

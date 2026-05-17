@@ -41,11 +41,33 @@
 
 <div class="container py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0 fw-bold">Daftar Buku</h4>
-        <a href="{{ route('buku.create') }}" class="btn btn-dark btn-sm">
-            <i class="bi bi-plus-lg me-1"></i>Tambah Buku
-        </a>
+    {{-- Toolbar: Judul + Tambah Buku (kiri) | Search (kanan) --}}
+    <div class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap">
+        <div class="d-flex align-items-center gap-2">
+            <h4 class="mb-0 fw-bold">Daftar Buku</h4>
+            <a href="{{ route('buku.create') }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg me-1"></i>Tambah Buku
+            </a>
+        </div>
+
+        <form method="GET" action="{{ route('buku.index') }}" class="d-flex gap-2" style="min-width:260px">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text"
+                       name="search"
+                       class="form-control border-start-0 ps-0"
+                       placeholder="Cari judul, penulis, kategori…"
+                       value="{{ request('search') }}">
+                @if(request('search'))
+                    <a href="{{ route('buku.index') }}" class="btn btn-outline-secondary btn-sm" title="Reset">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                @endif
+                <button class="btn btn-primary btn-sm" type="submit">Cari</button>
+            </div>
+        </form>
     </div>
 
     @if(session('success'))
@@ -53,6 +75,13 @@
             <i class="bi bi-check-circle me-1"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+    @endif
+
+    @if(request('search'))
+        <p class="text-muted small mb-2">
+            Menampilkan hasil pencarian untuk: <strong>"{{ request('search') }}"</strong>
+            — {{ $buku->total() }} buku ditemukan.
+        </p>
     @endif
 
     <div class="card shadow-sm">
@@ -72,35 +101,41 @@
                     @forelse($buku as $index => $item)
                         <tr>
                             <td>{{ $buku->firstItem() + $index }}</td>
-                            <td>{{ $item->judul }}</td>
+                            <td>
+                                <a href="{{ route('buku.show', $item) }}" class="text-decoration-none fw-semibold">
+                                    {{ $item->judul }}
+                                </a>
+                            </td>
                             <td>{{ $item->penulis }}</td>
                             <td>{{ $item->tahun_terbit }}</td>
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-                            <td class="text-center">
-                                <a href="{{ route('buku.show', $item) }}"
-                                   class="btn btn-sm btn-secondary" title="Detail">
-                                    <i class="bi bi-eye"></i> Detail
-                                </a>
-                                <a href="{{ route('buku.edit', $item) }}"
-                                   class="btn btn-sm btn-outline-dark" title="Edit">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                <form action="{{ route('buku.destroy', $item) }}" method="POST"
-                                      class="d-inline"
-                                      onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </button>
-                                </form>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center gap-1 flex-nowrap">
+                                    <a href="{{ route('buku.show', $item) }}"
+                                       class="btn btn-sm btn-success" title="Detail">
+                                        <i class="bi bi-eye"></i> Detail
+                                    </a>
+                                    <a href="{{ route('buku.edit', $item) }}"
+                                       class="btn btn-sm btn-warning" title="Edit">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form action="{{ route('buku.destroy', $item) }}" method="POST"
+                                          class="d-inline m-0"
+                                          onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="6" class="text-center text-muted py-4">
                                 <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                                Belum ada data buku.
+                                {{ request('search') ? 'Buku tidak ditemukan.' : 'Belum ada data buku.' }}
                             </td>
                         </tr>
                     @endforelse
@@ -109,22 +144,29 @@
         </div>
     </div>
 
+    {{-- Pagination --}}
     @if($buku->lastPage() > 1)
-        <nav class="mt-3 d-flex justify-content-end">
-            <ul class="pagination pagination-sm mb-0">
-                <li class="page-item {{ $buku->onFirstPage() ? 'disabled' : '' }}">
-                    <a class="page-link" href="{{ $buku->previousPageUrl() ?? '#' }}">&laquo;</a>
-                </li>
-                @for($i = 1; $i <= $buku->lastPage(); $i++)
-                    <li class="page-item {{ $buku->currentPage() == $i ? 'active' : '' }}">
-                        <a class="page-link" href="{{ $buku->url($i) }}">{{ $i }}</a>
+        <div class="text-center mt-3">
+            <small class="text-muted d-block mb-2">
+                Halaman {{ $buku->currentPage() }} dari {{ $buku->lastPage() }}
+                &nbsp;·&nbsp; Total {{ $buku->total() }} buku
+            </small>
+            <nav>
+                <ul class="pagination pagination-sm justify-content-center mb-0">
+                    <li class="page-item {{ $buku->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $buku->previousPageUrl() ?? '#' }}">&laquo; Sebelumnya</a>
                     </li>
-                @endfor
-                <li class="page-item {{ !$buku->hasMorePages() ? 'disabled' : '' }}">
-                    <a class="page-link" href="{{ $buku->nextPageUrl() ?? '#' }}">&raquo;</a>
-                </li>
-            </ul>
-        </nav>
+                    @for($i = 1; $i <= $buku->lastPage(); $i++)
+                        <li class="page-item {{ $buku->currentPage() == $i ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $buku->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item {{ !$buku->hasMorePages() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $buku->nextPageUrl() ?? '#' }}">Berikutnya &raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     @endif
 
 </div>

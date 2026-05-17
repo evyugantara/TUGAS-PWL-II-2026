@@ -19,7 +19,7 @@ class BukuController extends Controller
                   ->orWhere('kategori', 'like', "%{$search}%");
         }
 
-        $buku = $query->latest()->paginate(9);
+        $buku = $query->latest()->paginate(5)->appends($request->only('search'));
 
         return view('pages.buku.index', compact('buku'));
     }

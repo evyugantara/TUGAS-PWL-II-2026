@@ -8,7 +8,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\BukuController;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 

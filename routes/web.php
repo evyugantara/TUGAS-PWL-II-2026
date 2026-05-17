@@ -6,8 +6,11 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ContacController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RiwayatController;
-use App\Http\Controllers\BukuController;
+//use App\Http\Controllers\BukuController;
 
+
+
+ 
 Route::get('/welcome', function () {
     return view('welcome');
 });
